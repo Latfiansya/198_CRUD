@@ -35,3 +35,24 @@ db.connect((err) => {
     }   
     res.json(results);
 });
+
+//Endpoint untuk menambah data mahasiswa
+app.post('/api/mahasiswa', (req, res) => {
+    const { nama, alamat, agama } = req.body;
+
+    if (!nama || !alamat || !agama) {
+        return res.status(400).json({ message : "Nama, Alamat, dan Agama harus diisi." });
+    }
+
+    db.query(
+        "INSERT INTO mahasiswa (nama, alamat, agama) VALUES (?, ?, ?)",
+        [nama, alamat, agama],
+        (err, results) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ message: "Gagal menambahkan data." });
+            }
+            res.status(201).json({ message: "Data berhasil ditambahkan."});
+        }
+    );
+});
