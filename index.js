@@ -1,6 +1,6 @@
 //Setup server menggunakan Express.js dan MySQL
 const express = require('express');
-let mysql = require('mysql');
+let mysql = require('mysql2');
 const app = express();
 const port = 3000;
 
@@ -21,9 +21,9 @@ app.listen(port, () => {
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
+    port: 3309,
     password: 'L@aaatfidz579',
-    database: 'mahasiswa',
-    port: 3309
+    database: 'mahasiswa'
 });
 
 //Menghubungkan ke database MySQL
