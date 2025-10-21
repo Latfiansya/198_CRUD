@@ -73,6 +73,35 @@ app.put('/api/mahasiswa/:id', (req, res) => {
     const { id } = req.params;
     const { nama, alamat, agama } = req.body;   
     db.query(
-        "UPDATE Biodata SET nama = ?, alamat = ?, agama = ? WHERE id = ?",
+        "UPDATE biodata SET nama = ?, alamat = ?, agama = ? WHERE id = ?",
         [nama, alamat, agama, id],
         (err, results) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ message: "Gagal mengubah data." });
+            }
+
+            if (results.affectedRows === 0) {
+                return res.status(404).json({ message: "Data tidak ditemukan." });
+            }
+
+            res.json({ message: "Data berhasil diubah." });
+        }
+    );
+});
+
+//Endpoint untuk menghapus data mahasiswa
+app.delete('/api/mahasiswa/:id', (req, res) => {
+    const { id } = req.params;
+    db.query( 
+        "DELETE FROM biodata WHERE id = ?", [userId],
+        (err, results) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ message: "Gagal menghapus data." });
+            }
+
+            res.json({ message: "Data berhasil dihapus." });
+        }   
+    );
+});
