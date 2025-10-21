@@ -30,10 +30,21 @@ const db = mysql.createConnection({
 db.connect((err) => {
     if (err) {
         console.error('Koneksi ke database gagal cuy: ' + err.stack);
-        res.status(500).send('Terjadi kesalahan saat mengambil data user.');
         return;
     }   
-    res.json(results);
+    console.log("Koneksi ke database berhasil cuy.");
+});
+
+//Endpoint untuk mengambil data mahasiswa
+app.get('/api/mahasiswa', (req, res) => {
+    db.query('SELECT * FROM biodata', (err, results) => {
+        if (err) {  
+            console.error("Error mengeksekusi query: " + err.stack);
+            res.status(500).json({ message: "Gagal mengambil data." });
+            return;
+        }
+        res.json(results);
+    });
 });
 
 //Endpoint untuk menambah data mahasiswa
@@ -45,7 +56,7 @@ app.post('/api/mahasiswa', (req, res) => {
     }
 
     db.query(
-        "INSERT INTO mahasiswa (nama, alamat, agama) VALUES (?, ?, ?)",
+        "INSERT INTO biodata (nama, alamat, agama) VALUES (?, ?, ?)",
         [nama, alamat, agama],
         (err, results) => {
             if (err) {
@@ -56,3 +67,12 @@ app.post('/api/mahasiswa', (req, res) => {
         }
     );
 });
+
+//Endpoint untuk mengubah data mahasiswa
+app.put('/api/mahasiswa/:id', (req, res) => {
+    const { id } = req.params;
+    const { nama, alamat, agama } = req.body;   
+    db.query(
+        "UPDATE Biodata SET nama = ?, alamat = ?, agama = ? WHERE id = ?",
+        [nama, alamat, agama, id],
+        (err, results) => {
