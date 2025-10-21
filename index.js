@@ -26,3 +26,12 @@ const db = mysql.createConnection({
     port: 3309
 });
 
+//Menghubungkan ke database MySQL
+db.connect((err) => {
+    if (err) {
+        console.error('Koneksi ke database gagal cuy: ' + err.stack);
+        res.status(500).send('Terjadi kesalahan saat mengambil data user.');
+        return;
+    }   
+    res.json(results);
+});
