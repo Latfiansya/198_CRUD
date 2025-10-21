@@ -12,6 +12,7 @@ app.get('/', (req, res) => {
     res.send('Halo Dunia!');
 });
 
+//Memastikan dan menjalankan server aktif dan bisa menerima request
 app.listen(port, () => {
     console.log(`Server berjalan di port ${port}`);
 });
