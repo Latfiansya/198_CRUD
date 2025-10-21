@@ -17,3 +17,12 @@ app.listen(port, () => {
     console.log(`Server berjalan di port ${port}`);
 });
 
+//Konfigurasi koneksi database MySQL
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'L@aaatfidz579',
+    database: 'mahasiswa',
+    port: 3309
+});
+
